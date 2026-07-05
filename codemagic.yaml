@@ -1,28 +1,35 @@
 workflows:
   pellazgo-ios:
-    name: Pellazgo iOS – TestFlight
+    name: Pellazgo – iOS TestFlight
     max_build_duration: 60
     instance_type: mac_mini_m2
 
     environment:
+      # ── Code signing ─────────────────────────────────────────────────────────
+      # Pulls the "PellazgoApp" app_store certificate stored under
+      # Codemagic → Teams (Bardh Idrizi) → Code signing identities.
+      # No CERTIFICATE_PRIVATE_KEY env var needed — Codemagic fetches it.
       ios_signing:
-        # Uses the "PellazgoApp" app_store certificate stored in
-        # Codemagic → Teams (Bardh Idrizi) → Code signing identities
         distribution_type: app_store
         bundle_identifier: com.pellazgo.pellazgo
+
+      # ── App Store Connect API key ─────────────────────────────────────────────
+      # Create a variable group called "pellazgo_asc" in:
+      #   Codemagic → Teams (Bardh Idrizi) → Global variables & secrets
+      # Add these three variables (mark each as Secure ↗):
+      #   APP_STORE_CONNECT_KEY_IDENTIFIER  →  A8472N678Q
+      #   APP_STORE_CONNECT_ISSUER_ID       →  (copy from App Store Connect → Users → Integrations → Keys)
+      #   APP_STORE_CONNECT_PRIVATE_KEY     →  (paste full contents of AuthKey_A8472N678Q.p8)
+      groups:
+        - pellazgo_asc
+
       vars:
         BUNDLE_ID: com.pellazgo.pellazgo
-        XCODE_WORKSPACE: ios/Pellazgo.xcworkspace
-        XCODE_SCHEME: Pellazgo
         APP_STORE_APPLE_ID: "6782613978"
-      groups:
-        # Create this group in Codemagic → Teams → Global variables & secrets
-        # Group name: pellazgo_asc
-        # Add these three variables (all marked as secure):
-        #   APP_STORE_CONNECT_KEY_IDENTIFIER  = A8472N678Q
-        #   APP_STORE_CONNECT_ISSUER_ID       = <Issuer ID from App Store Connect → Users → Keys>
-        #   APP_STORE_CONNECT_PRIVATE_KEY     = <full contents of AuthKey_A8472N678Q.p8>
-        - pellazgo_asc
+        EXPO_DIR: artifacts/pellazgo
+        IOS_DIR: artifacts/pellazgo/ios
+        XCODE_SCHEME: Pellazgo
+
       node: latest
       xcode: latest
       cocoapods: default
@@ -30,6 +37,7 @@ workflows:
     triggering:
       events:
         - push
+        - tag
       branch_patterns:
         - pattern: main
           include: true
@@ -37,60 +45,61 @@ workflows:
 
     scripts:
       - name: Install pnpm
-        script: |
-          npm install -g pnpm@latest
+        script: npm install -g pnpm@latest
 
       - name: Install workspace dependencies
-        script: |
-          pnpm install --frozen-lockfile
+        script: pnpm install --no-frozen-lockfile
 
       - name: Expo Prebuild – generate native iOS project
         script: |
-          cd artifacts/pellazgo
+          cd "$EXPO_DIR"
           npx expo prebuild --platform ios --clean --no-install
+
+      - name: Detect Xcode workspace name
+        script: |
+          # Find workspace name and store it relative to EXPO_DIR (where build cmds run)
+          WS_NAME=$(find "$IOS_DIR" -maxdepth 1 -name "*.xcworkspace" -type d | head -1 | xargs basename)
+          if [ -z "$WS_NAME" ]; then
+            echo "ERROR: No .xcworkspace found in $IOS_DIR" >&2
+            exit 1
+          fi
+          echo "XCODE_WORKSPACE=ios/$WS_NAME" >> $CM_ENV
+          echo "Found workspace: ios/$WS_NAME"
 
       - name: Install CocoaPods
         script: |
-          cd artifacts/pellazgo/ios
-          pod install
+          cd "$IOS_DIR"
+          pod install --repo-update
 
       - name: Increment build number from latest TestFlight
         script: |
-          cd artifacts/pellazgo/ios
+          cd "$IOS_DIR"
           LATEST=$(app-store-connect get-latest-testflight-build-number \
             "$APP_STORE_APPLE_ID" 2>/dev/null || echo "0")
-          agvtool new-version -all $(($LATEST + 1))
+          BUILD=$(( LATEST + 1 ))
+          echo "Setting build number to $BUILD"
+          agvtool new-version -all "$BUILD"
           agvtool new-marketing-version 1.0.0
 
-      - name: Build iOS app (archive)
+      - name: Apply provisioning profiles
         script: |
-          cd artifacts/pellazgo
+          cd "$EXPO_DIR"
           xcode-project use-profiles
-          xcodebuild \
-            -workspace "$XCODE_WORKSPACE" \
-            -scheme "$XCODE_SCHEME" \
-            -configuration Release \
-            -archivePath ../../build/Pellazgo.xcarchive \
-            archive \
-            CODE_SIGN_STYLE=Manual \
-            | xcpretty --color && exit ${PIPESTATUS[0]}
 
-      - name: Export IPA
+      - name: Build & export IPA
         script: |
-          cd artifacts/pellazgo
+          cd "$EXPO_DIR"
           xcode-project build-ipa \
             --workspace "$XCODE_WORKSPACE" \
             --scheme "$XCODE_SCHEME"
 
     artifacts:
-      - build/ios/ipa/*.ipa
+      - artifacts/pellazgo/build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
 
     publishing:
       app_store_connect:
-        # Reads APP_STORE_CONNECT_PRIVATE_KEY, APP_STORE_CONNECT_KEY_IDENTIFIER,
-        # APP_STORE_CONNECT_ISSUER_ID from the pellazgo_asc group
         api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
         issuer_id: $APP_STORE_CONNECT_ISSUER_ID
@@ -99,7 +108,7 @@ workflows:
           - Internal Testers
       email:
         recipients:
-          - builds@pellazgo.com   # ← replace with your email address
+          - builds@pellazgo.com   # ← replace with your actual address
         notify:
           success: true
           failure: true
