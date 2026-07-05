@@ -3,20 +3,20 @@ workflows:
     name: Pellazgo iOS - TestFlight & App Store
     max_build_duration: 60
     integrations:
-      app_store_connect: pellazgo_asc   # App Store Connect integration name in Codemagic
+      app_store_connect: pellazgo_asc
 
     environment:
       ios_signing:
         provisioning_profiles:
-          - Pellazgo_AppStore            # ← exact name of the profile stored in Codemagic
+          - Pellazgo_AppStore
         certificates:
-          - PellazgoApp                  # ← certificate name stored in Codemagic (app_store, Bardh Idrizi, exp 2027)
+          - PellazgoApp
       xcode: latest
       vars:
         APP_ID: "6782613978"
         BUNDLE_ID: "com.pellazgo.pellazgo"
-        EXPO_DIR: "$CM_BUILD_DIR/artifacts/pellazgo"
-        IOS_DIR: "$CM_BUILD_DIR/artifacts/pellazgo/ios"
+        EXPO_DIR: "artifacts/pellazgo"
+        IOS_DIR: "artifacts/pellazgo/ios"
         XCODE_SCHEME: "Pellazgo"
 
     triggering:
@@ -27,7 +27,7 @@ workflows:
           include: true
 
     scripts:
-      - name: Install Node & pnpm
+      - name: Install pnpm
         script: |
           corepack disable 2>/dev/null || true
           npm install -g pnpm@10
@@ -35,17 +35,17 @@ workflows:
 
       - name: Install app dependencies
         script: |
-          cd "$EXPO_DIR"
+          cd "$CM_BUILD_DIR/$EXPO_DIR"
           pnpm install --no-frozen-lockfile
 
       - name: Expo Prebuild
         script: |
-          cd "$EXPO_DIR"
+          cd "$CM_BUILD_DIR/$EXPO_DIR"
           npx expo prebuild --platform ios --clean --no-install
 
       - name: Install CocoaPods
         script: |
-          cd "$IOS_DIR"
+          cd "$CM_BUILD_DIR/$IOS_DIR"
           pod install --repo-update
 
       - name: Increment build number
@@ -53,17 +53,17 @@ workflows:
           LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_ID" 2>/dev/null || \
                    app-store-connect get-latest-app-store-build-number "$APP_ID" 2>/dev/null || \
                    echo "0")
-          cd "$IOS_DIR"
+          cd "$CM_BUILD_DIR/$IOS_DIR"
           agvtool new-version -all $(( LATEST + 1 ))
 
       - name: Set up code signing
         script: |
-          WORKSPACE=$(find "$IOS_DIR" -maxdepth 1 -name "*.xcworkspace" -type d | head -1)
+          WORKSPACE=$(find "$CM_BUILD_DIR/$IOS_DIR" -maxdepth 1 -name "*.xcworkspace" -type d | head -1)
           xcode-project use-profiles --workspace "$WORKSPACE"
 
       - name: Build IPA
         script: |
-          WORKSPACE=$(find "$IOS_DIR" -maxdepth 1 -name "*.xcworkspace" -type d | head -1)
+          WORKSPACE=$(find "$CM_BUILD_DIR/$IOS_DIR" -maxdepth 1 -name "*.xcworkspace" -type d | head -1)
           xcode-project build-ipa \
             --workspace "$WORKSPACE" \
             --scheme "$XCODE_SCHEME" \
