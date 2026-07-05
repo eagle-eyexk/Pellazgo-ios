@@ -18,6 +18,10 @@ workflows:
         EXPO_DIR: "artifacts/pellazgo"
         IOS_DIR: "artifacts/pellazgo/ios"
         XCODE_SCHEME: "Pellazgo"
+        # Codemagic's macOS agents ship with an old corepack whose keystore
+        # predates pnpm 10 — signature verification always fails.
+        # Setting this to 0 disables the check so corepack can activate pnpm.
+        COREPACK_INTEGRITY_KEYS: "0"
 
     triggering:
       events:
