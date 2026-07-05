@@ -5,18 +5,23 @@ workflows:
     instance_type: mac_mini_m2
 
     environment:
+      ios_signing:
+        # Uses the "PellazgoApp" app_store certificate stored in
+        # Codemagic → Teams (Bardh Idrizi) → Code signing identities
+        distribution_type: app_store
+        bundle_identifier: com.pellazgo.pellazgo
       vars:
         BUNDLE_ID: com.pellazgo.pellazgo
         XCODE_WORKSPACE: ios/Pellazgo.xcworkspace
         XCODE_SCHEME: Pellazgo
         APP_STORE_APPLE_ID: "6782613978"
       groups:
-        # Create these groups in Codemagic → Teams → Global variables & secrets
-        # Group: pellazgo_asc  (add the variables below to this group)
-        #   APP_STORE_CONNECT_KEY_IDENTIFIER   = A8472N678Q
-        #   APP_STORE_CONNECT_ISSUER_ID        = <your Issuer ID from App Store Connect>
-        #   APP_STORE_CONNECT_PRIVATE_KEY      = <contents of AuthKey_A8472N678Q.p8>
-        #   CERTIFICATE_PRIVATE_KEY            = <your distribution certificate private key (RSA PEM)>
+        # Create this group in Codemagic → Teams → Global variables & secrets
+        # Group name: pellazgo_asc
+        # Add these three variables (all marked as secure):
+        #   APP_STORE_CONNECT_KEY_IDENTIFIER  = A8472N678Q
+        #   APP_STORE_CONNECT_ISSUER_ID       = <Issuer ID from App Store Connect → Users → Keys>
+        #   APP_STORE_CONNECT_PRIVATE_KEY     = <full contents of AuthKey_A8472N678Q.p8>
         - pellazgo_asc
       node: latest
       xcode: latest
@@ -34,49 +39,45 @@ workflows:
       - name: Install pnpm
         script: |
           npm install -g pnpm@latest
-          pnpm --version
 
-      - name: Install dependencies
+      - name: Install workspace dependencies
         script: |
           pnpm install --frozen-lockfile
 
-      - name: Set up Expo
-        script: |
-          pnpm --filter @workspace/pellazgo exec npx expo install --fix
-          pnpm --filter @workspace/pellazgo exec npx expo-doctor || true
-
-      - name: Expo Prebuild (generate native iOS project)
+      - name: Expo Prebuild – generate native iOS project
         script: |
           cd artifacts/pellazgo
-          npx expo prebuild --platform ios --clean --no-install \
-            --npm-client pnpm
+          npx expo prebuild --platform ios --clean --no-install
 
       - name: Install CocoaPods
         script: |
           cd artifacts/pellazgo/ios
           pod install
 
-      - name: Set app version & build number
+      - name: Increment build number from latest TestFlight
         script: |
-          # Use Codemagic build number for CFBundleVersion
-          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" 2>/dev/null || echo "0")
+          cd artifacts/pellazgo/ios
+          LATEST=$(app-store-connect get-latest-testflight-build-number \
+            "$APP_STORE_APPLE_ID" 2>/dev/null || echo "0")
           agvtool new-version -all $(($LATEST + 1))
           agvtool new-marketing-version 1.0.0
 
       - name: Build iOS app (archive)
         script: |
+          cd artifacts/pellazgo
           xcode-project use-profiles
           xcodebuild \
             -workspace "$XCODE_WORKSPACE" \
             -scheme "$XCODE_SCHEME" \
             -configuration Release \
-            -archivePath build/Pellazgo.xcarchive \
+            -archivePath ../../build/Pellazgo.xcarchive \
             archive \
             CODE_SIGN_STYLE=Manual \
-            | xcpretty --color
+            | xcpretty --color && exit ${PIPESTATUS[0]}
 
       - name: Export IPA
         script: |
+          cd artifacts/pellazgo
           xcode-project build-ipa \
             --workspace "$XCODE_WORKSPACE" \
             --scheme "$XCODE_SCHEME"
@@ -88,17 +89,17 @@ workflows:
 
     publishing:
       app_store_connect:
-        # Uses APP_STORE_CONNECT_KEY_IDENTIFIER, APP_STORE_CONNECT_ISSUER_ID,
-        # APP_STORE_CONNECT_PRIVATE_KEY from the pellazgo_asc group above.
+        # Reads APP_STORE_CONNECT_PRIVATE_KEY, APP_STORE_CONNECT_KEY_IDENTIFIER,
+        # APP_STORE_CONNECT_ISSUER_ID from the pellazgo_asc group
         api_key: $APP_STORE_CONNECT_PRIVATE_KEY
         key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
         issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         submit_to_testflight: true
         beta_groups:
-          - "Internal Testers"
+          - Internal Testers
       email:
         recipients:
-          - builds@pellazgo.com   # replace with your email
+          - builds@pellazgo.com   # ← replace with your email address
         notify:
           success: true
           failure: true
