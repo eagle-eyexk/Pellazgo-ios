@@ -1,6 +1,6 @@
 workflows:
   pellazgo-ios:
-    name: Pellazgo iOS - TestFlight & App Store
+    name: Pellazgo iOS - TestFlight
     max_build_duration: 60
     integrations:
       app_store_connect: pellazgo_asc
@@ -16,9 +16,9 @@ workflows:
         EXPO_DIR: "artifacts/pellazgo"
         IOS_DIR: "artifacts/pellazgo/ios"
         XCODE_SCHEME: "Pellazgo"
-        # Codemagic's macOS agents ship with an old corepack whose keystore
-        # predates pnpm 10 — signature verification always fails.
-        # Setting this to 0 disables the check so corepack can activate pnpm.
+        XCODE_WORKSPACE: "artifacts/pellazgo/ios/Pellazgo.xcworkspace"
+        # Codemagic macOS agents ship with old corepack whose keystore
+        # predates pnpm 10 — disabling integrity check so Enable pnpm passes.
         COREPACK_INTEGRITY_KEYS: "0"
 
     triggering:
@@ -37,8 +37,8 @@ workflows:
 
       - name: Install app dependencies
         script: |
-          cd "$CM_BUILD_DIR/$EXPO_DIR"
-          pnpm install --no-frozen-lockfile
+          cd "$CM_BUILD_DIR"
+          pnpm install --filter @workspace/pellazgo... --no-frozen-lockfile
 
       - name: Expo Prebuild
         script: |
@@ -52,24 +52,24 @@ workflows:
 
       - name: Increment build number
         script: |
-          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_ID" 2>/dev/null || \
-                   app-store-connect get-latest-app-store-build-number "$APP_ID" 2>/dev/null || \
-                   echo "0")
+          LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_ID" 2>/dev/null \
+            || app-store-connect get-latest-app-store-build-number "$APP_ID" 2>/dev/null \
+            || echo "0")
+          LATEST=$(echo "$LATEST" | tr -d '[:space:]')
           cd "$CM_BUILD_DIR/$IOS_DIR"
-          agvtool new-version -all $(( LATEST + 1 ))
+          agvtool new-version -all $(( ${LATEST:-0} + 1 ))
 
       - name: Set up code signing
         script: |
-          WORKSPACE=$(find "$CM_BUILD_DIR/$IOS_DIR" -maxdepth 1 -name "*.xcworkspace" -type d | head -1)
-          xcode-project use-profiles --workspace "$WORKSPACE"
+          xcode-project use-profiles \
+            --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE"
 
       - name: Build IPA
         script: |
-          WORKSPACE=$(find "$CM_BUILD_DIR/$IOS_DIR" -maxdepth 1 -name "*.xcworkspace" -type d | head -1)
           xcode-project build-ipa \
-            --workspace "$WORKSPACE" \
+            --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
             --scheme "$XCODE_SCHEME" \
-            --config Release
+            --archive-flags "-configuration Release"
 
     artifacts:
       - build/ios/ipa/*.ipa
