@@ -1,0 +1,699 @@
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:98: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:120: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:161: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXLegacyExpoViewProtocol.h:11:4: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (instancetype)initWithModuleRegistry:(nullable EXModuleRegistry *)moduleRegistry;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:14:42: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+@property (nonatomic, readonly) NSString *documentDirectory;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:20:57: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull NSString *)generatePathInDirectory:(NSString *)directory withExtension:(NSString *)extension;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:20:93: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull NSString *)generatePathInDirectory:(NSString *)directory withExtension:(NSString *)extension;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:21:43: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (BOOL)ensureDirExistsWithPath:(NSString *)path;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXJSIInstaller.h:39:78: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
++ (void)installSharedObjectClass:(nonnull EXRuntime *)runtime releaser:(void(^)(long))releaser;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:8:41: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+@property (nonatomic, strong, readonly) EXPromiseResolveBlock resolve;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:11:42: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull instancetype)initWithResolve:(EXPromiseResolveBlock)resolve
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:12:42: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                                 reject:(EXPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:14:34: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:14:83: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:14:131: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:16:34: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:16:67: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:16:104: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:18:34: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:18:83: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:23:34: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:23:75: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:23:109: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:25:34: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:25:67: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:30:17: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (NSDictionary *)parseServerResponse:(NSURLResponse *)response;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/EXSessionTasks/EXSessionTaskDelegate.h:30:54: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (NSDictionary *)parseServerResponse:(NSURLResponse *)response;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionCancelableUploadTaskDelegate.h:6:71: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+typedef void (^EXUploadDelegateOnSendCallback)(NSURLSessionUploadTask *task, int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend);
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionCancelableUploadTaskDelegate.h:10:42: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull instancetype)initWithResolve:(EXPromiseResolveBlock)resolve
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionCancelableUploadTaskDelegate.h:11:42: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                                 reject:(EXPromiseRejectBlock)reject
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionCancelableUploadTaskDelegate.h:12:42: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                         onSendCallback:(EXUploadDelegateOnSendCallback)onSendCallback
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionCancelableUploadTaskDelegate.h:13:64: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                       resumableManager:(EXTaskHandlersManager *)manager
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionCancelableUploadTaskDelegate.h:14:51: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                                   uuid:(NSString *)uuid;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionDownloadTaskDelegate.h:7:42: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull instancetype)initWithResolve:(EXPromiseResolveBlock)resolve
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionDownloadTaskDelegate.h:8:42: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                                 reject:(EXPromiseRejectBlock)reject
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionDownloadTaskDelegate.h:9:48: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                               localUrl:(NSURL *)localUrl
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionResumableDownloadTaskDelegate.h:6:76: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+typedef void (^EXDownloadDelegateOnWriteCallback)(NSURLSessionDownloadTask *task, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite);
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionResumableDownloadTaskDelegate.h:10:42: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull instancetype)initWithResolve:(EXPromiseResolveBlock)resolve
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionResumableDownloadTaskDelegate.h:11:42: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                                 reject:(EXPromiseRejectBlock)reject
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionResumableDownloadTaskDelegate.h:12:48: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                               localUrl:(NSURL *)localUrl
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionResumableDownloadTaskDelegate.h:14:42: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                        onWriteCallback:(EXDownloadDelegateOnWriteCallback)onWriteCallback
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionResumableDownloadTaskDelegate.h:15:64: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                       resumableManager:(EXTaskHandlersManager *)manager
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoFileSystem/EXSessionResumableDownloadTaskDelegate.h:16:51: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+                                   uuid:(NSString *)uuid;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/NetworkingHelpers.swift:7:23: 'UTTypeCreatePreferredIdentifierForTag' was deprecated in iOS 15.0: Use the UTType class instead.
+
+  if let identifier = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, attachment.pathExtension as CFString, nil)?.takeRetainedValue() {
+                                                  ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/NetworkingHelpers.swift:7:61: 'kUTTagClassFilenameExtension' was deprecated in iOS 15.0: Use UTTagClassFilenameExtension instead.
+
+  if let identifier = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, attachment.pathExtension as CFString, nil)?.takeRetainedValue() {
+                      ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/NetworkingHelpers.swift:8:19: 'UTTypeCopyPreferredTagWithClass' was deprecated in iOS 15.0: Use the UTType class instead.
+
+    if let type = UTTypeCopyPreferredTagWithClass(identifier, kUTTagClassMIMEType)?.takeRetainedValue() {
+                                                            ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo-file-system@18.1.11_expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_r_a81994ae70453a1ebeb9a8ef99fc3abb/node_modules/expo-file-system/ios/NetworkingHelpers.swift:8:63: 'kUTTagClassMIMEType' was deprecated in iOS 15.0: Use UTTagClassMIMEType instead.
+
+    if let type = UTTypeCopyPreferredTagWithClass(identifier, kUTTagClassMIMEType)?.takeRetainedValue() {
+                  ^
+
+
+▸ Running script '[CP-User] Generate app.config for prebuilt Constants.manifest'
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:13:4: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (instancetype)initWithConstants:(nonnull NSDictionary *)constants
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:29:62: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+@property (nonatomic, strong, readonly) EXModulesProxyConfig *nativeModulesConfig;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:30: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:60: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:98: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:120: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:161: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXLegacyExpoViewProtocol.h:11:4: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (instancetype)initWithModuleRegistry:(nullable EXModuleRegistry *)moduleRegistry;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:14:42: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+@property (nonatomic, readonly) NSString *documentDirectory;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:20:57: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull NSString *)generatePathInDirectory:(NSString *)directory withExtension:(NSString *)extension;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:20:93: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull NSString *)generatePathInDirectory:(NSString *)directory withExtension:(NSString *)extension;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:21:43: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (BOOL)ensureDirExistsWithPath:(NSString *)path;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXJSIInstaller.h:39:78: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
++ (void)installSharedObjectClass:(nonnull EXRuntime *)runtime releaser:(void(^)(long))releaser;
+        ^
+
+
+
+⚠️  /Users/builder/clone/node_modules/.pnpm/expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_react-native@0.79.4_@babel_a4f1cc9525fbdea9eb6277a9188eeeaf/node_modules/expo/ios/AppDelegates/ExpoAppDelegate.swift:501:20: 'application(_:performFetchWithCompletionHandler:)' was deprecated in iOS 13.0: Use a BGAppRefreshTask in the BackgroundTasks framework instead
+
+        subscriber.application?(application, performFetchWithCompletionHandler: handler)
+                                                                             ^
+
+
+▸ Compiling ExpoKeepAwake-dummy.m
+▸ Compiling ExpoSplashScreen-dummy.m
+▸ Building library libExpoKeepAwake.a
+▸ Building library libExpoSplashScreen.a
+▸ Running script 'Copy generated compatibility header'
+▸ Running script 'Copy generated compatibility header'
+▸ Compiling EXReactRootViewFactory.mm
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:13:4: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+
+   13 | - (instancetype)initWithConstants:(nonnull NSDictionary *)constants
+                   ^
+
+
+▸ Compiling EXAppDelegateWrapper.mm
+▸ Compiling EXConstantsInstallationIdProvider.m
+▸ Compiling ExpoFont-dummy.m
+▸ Compiling EXConstantsService.m
+▸ Compiling EXConstants-dummy.m
+▸ Building library libExpoFont.a
+▸ Building library libEXConstants.a
+▸ Running script 'Copy generated compatibility header'
+▸ Running script 'Copy generated compatibility header'
+▸ Compiling ExpoAsset-dummy.m
+▸ Compiling EXLegacyAppDelegateWrapper.m
+▸ Compiling Expo-dummy.m
+▸ Building library libExpoAsset.a
+▸ Compiling NSData+EXFileSystem.m
+▸ Compiling EXSessionTaskDispatcher.m
+▸ Compiling EXTaskHandlersManager.m
+▸ Compiling ExpoFileSystem-dummy.m
+▸ Compiling EXSessionUploadTaskDelegate.m
+▸ Compiling EXSessionTaskDelegate.m
+▸ Compiling EXSessionResumableDownloadTaskDelegate.m
+▸ Compiling EXSessionHandler.m
+▸ Compiling EXSessionDownloadTaskDelegate.m
+▸ Compiling EXSessionCancelableUploadTaskDelegate.m
+▸ Running script 'Copy generated compatibility header'
+▸ Compiling EXAppDelegatesLoader.m
+▸ Compiling EXAppDefinesLoader.m
+▸ Compiling EXFileSystemAssetLibraryHandler.m
+▸ Compiling EXFileSystemLocalFileHandler.m
+▸ Building library libExpoFileSystem.a
+▸ Running script 'Copy generated compatibility header'
+▸ Building library libExpo.a
+▸ Running script 'Copy generated compatibility header'
+▸ Compiling Pods-Pellazgo-dummy.m
+▸ Building library libPods-Pellazgo.a
+▸ Running script '[CP] Check Pods Manifest.lock'
+▸ Running script '[Expo] Configure project'
+▸ Copying Expo.plist
+▸ Copying /Users/builder/Library/Developer/Xcode/DerivedData/Pellazgo-cmzhccotpqppekbpsuttoikzatlf/Build/Intermediates.noindex/ArchiveIntermediates/Pellazgo/InstallationBuildProductsLocation/Applications/Pellazgo.app/PrivacyInfo.xcprivacy
+▸ Compiling SplashScreen.storyboard
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXJSIInstaller.h:39:78: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified) [-Wnullability-completeness]
+
+#import "Expo-umbrella.h"
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:13:4: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (instancetype)initWithConstants:(nonnull NSDictionary *)constants
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:29:62: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+@property (nonatomic, strong, readonly) EXModulesProxyConfig *nativeModulesConfig;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:30: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:60: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:98: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:120: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:161: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXLegacyExpoViewProtocol.h:11:4: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (instancetype)initWithModuleRegistry:(nullable EXModuleRegistry *)moduleRegistry;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:14:42: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+@property (nonatomic, readonly) NSString *documentDirectory;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:20:57: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull NSString *)generatePathInDirectory:(NSString *)directory withExtension:(NSString *)extension;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:20:93: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull NSString *)generatePathInDirectory:(NSString *)directory withExtension:(NSString *)extension;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:21:43: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (BOOL)ensureDirExistsWithPath:(NSString *)path;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXJSIInstaller.h:39:78: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
++ (void)installSharedObjectClass:(nonnull EXRuntime *)runtime releaser:(void(^)(long))releaser;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:13:4: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (instancetype)initWithConstants:(nonnull NSDictionary *)constants
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:29:62: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+@property (nonatomic, strong, readonly) EXModulesProxyConfig *nativeModulesConfig;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:30: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:60: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:98: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:120: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXNativeModulesProxy.h:35:161: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (void)callMethod:(NSString *)moduleName methodNameOrKey:(id)methodNameOrKey arguments:(NSArray *)arguments resolver:(RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXLegacyExpoViewProtocol.h:11:4: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (instancetype)initWithModuleRegistry:(nullable EXModuleRegistry *)moduleRegistry;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:14:42: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+@property (nonatomic, readonly) NSString *documentDirectory;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:20:57: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull NSString *)generatePathInDirectory:(NSString *)directory withExtension:(NSString *)extension;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:20:93: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull NSString *)generatePathInDirectory:(NSString *)directory withExtension:(NSString *)extension;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:21:43: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (BOOL)ensureDirExistsWithPath:(NSString *)path;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXJSIInstaller.h:39:78: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
++ (void)installSharedObjectClass:(nonnull EXRuntime *)runtime releaser:(void(^)(long))releaser;
+        ^
+
+
+▸ Processing Info.plist
+▸ Compiling Pellazgo_vers.c
+▸ Linking Pellazgo
+⚠️  ld: ignoring duplicate libraries: '-lc++'
+▸ Running script 'Bundle React Native code and images'
+
+❌  /Users/builder/clone/node_modules/.pnpm/expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_react-native@0.79.4_@babel_a4f1cc9525fbdea9eb6277a9188eeeaf/node_modules/expo/AppEntry.js:2:17: Unable to resolve module ../../App from /Users/builder/clone/node_modules/.pnpm/expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_react-native@0.79.4_@babel_a4f1cc9525fbdea9eb6277a9188eeeaf/node_modules/expo/AppEntry.js: 
+
+Error: Unable to resolve module ../../App from /Users/builder/clone/node_modules/.pnpm/expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_react-native@0.79.4_@babel_a4f1cc9525fbdea9eb6277a9188eeeaf/node_modules/expo/AppEntry.js: 
+        ^
+
+
+▸ Generating 'Pellazgo.app.dSYM'
+    Run script build phase '[CP-User] [Hermes] Replace Hermes for the right configuration, if needed' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'hermes-engine' from project 'Pods')
+Failed to archive /Users/builder/clone/artifacts/pellazgo/ios/Pellazgo.xcworkspace. The following build commands failed:
+
+PhaseScriptExecution Bundle\ React\ Native\ code\ and\ images /Users/builder/Library/Developer/Xcode/DerivedData/Pellazgo-cmzhccotpqppekbpsuttoikzatlf/Build/Intermediates.noindex/ArchiveIntermediates/Pellazgo/IntermediateBuildFilesPath/Pellazgo.build/Release-iphoneos/Pellazgo.build/Script-00DD1BFF1BD5951E006B06BC.sh (in target 'Pellazgo' from project 'Pellazgo')
+	...
+	note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'Expo' from project 'Pods')
+	note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'EXConstants-ExpoConstants_privacy' from project 'Pods')
+	note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'EXConstants-EXConstants' from project 'Pods')
+	note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'EXConstants' from project 'Pods')
+	note: Run script build phase '[CP-User] Generate app.config for prebuilt Constants.manifest' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'EXConstants' from project 'Pods')
+	note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'DoubleConversion' from project 'Pods')
+
+
+Build failed :

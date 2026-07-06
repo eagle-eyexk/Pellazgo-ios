@@ -6,11 +6,15 @@ const workspaceRoot = path.resolve(projectRoot, '../..');
 
 const config = getDefaultConfig(projectRoot);
 
-// Let Metro resolve packages from both the project and workspace root
+// pnpm monorepo: watch the full workspace and resolve from both roots
 config.watchFolders = [workspaceRoot];
 config.resolver.nodeModulesPaths = [
   path.resolve(projectRoot, 'node_modules'),
   path.resolve(workspaceRoot, 'node_modules'),
 ];
+
+// Required for pnpm: Metro must follow symlinks into the .pnpm virtual store
+// so that packages installed at the workspace root are visible to the bundler.
+config.resolver.unstable_enableSymlinks = true;
 
 module.exports = config;
