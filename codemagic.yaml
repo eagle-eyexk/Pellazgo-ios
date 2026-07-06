@@ -1,7 +1,7 @@
 workflows:
   pellazgo-ios:
     name: Pellazgo iOS - TestFlight & App Store
-    max_build_duration: 60
+    max_build_duration: 90
     integrations:
       app_store_connect: pellazgo_asc
 
@@ -22,6 +22,7 @@ workflows:
         XCODE_SCHEME: "Pellazgo"
         XCODE_WORKSPACE: "artifacts/pellazgo/ios/Pellazgo.xcworkspace"
         COREPACK_INTEGRITY_KEYS: "0"
+        EXPO_NO_TELEMETRY: "1"
 
     triggering:
       events:
@@ -45,7 +46,9 @@ workflows:
       - name: Expo Prebuild
         script: |
           cd "$CM_BUILD_DIR/$EXPO_DIR"
-          npx expo prebuild --platform ios --clean --no-install
+          # Use the locally-installed expo binary directly so we never accidentally
+          # pull a different version via npx's global cache.
+          node_modules/.bin/expo prebuild --platform ios --clean --no-install
 
       - name: Patch Podfile – fix fmt/glog C++ standard
         script: |
