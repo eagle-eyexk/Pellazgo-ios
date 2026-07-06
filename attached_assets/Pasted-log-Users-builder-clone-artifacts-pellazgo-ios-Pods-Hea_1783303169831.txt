@@ -1,0 +1,50 @@
+log
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:20:93: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (nonnull NSString *)generatePathInDirectory:(NSString *)directory withExtension:(NSString *)extension;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXFileSystemInterface.h:21:43: pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
+- (BOOL)ensureDirExistsWithPath:(NSString *)path;
+        ^
+
+
+
+⚠️  /Users/builder/clone/artifacts/pellazgo/ios/Pods/Headers/Public/ExpoModulesCore/ExpoModulesCore/EXJSIInstaller.h:39:78: block pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)
+
++ (void)installSharedObjectClass:(nonnull EXRuntime *)runtime releaser:(void(^)(long))releaser;
+        ^
+
+
+▸ Processing Info.plist
+▸ Compiling Pellazgo_vers.c
+▸ Linking Pellazgo
+⚠️  ld: ignoring duplicate libraries: '-lc++'
+▸ Running script 'Bundle React Native code and images'
+
+❌  error: ../../node_modules/.pnpm/expo@53.0.27_@babel+core@7.29.7_react-native-webview@13.13.5_react-native@0.79.4_@babel_a4f1cc9525fbdea9eb6277a9188eeeaf/node_modules/expo/AppEntry.js: Cannot find module 'babel-preset-expo'
+
+
+▸ Generating 'Pellazgo.app.dSYM'
+    Run script build phase '[CP-User] [Hermes] Replace Hermes for the right configuration, if needed' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'hermes-engine' from project 'Pods')
+Failed to archive /Users/builder/clone/artifacts/pellazgo/ios/Pellazgo.xcworkspace. The following build commands failed:
+
+PhaseScriptExecution Bundle\ React\ Native\ code\ and\ images /Users/builder/Library/Developer/Xcode/DerivedData/Pellazgo-cmzhccotpqppekbpsuttoikzatlf/Build/Intermediates.noindex/ArchiveIntermediates/Pellazgo/IntermediateBuildFilesPath/Pellazgo.build/Release-iphoneos/Pellazgo.build/Script-00DD1BFF1BD5951E006B06BC.sh (in target 'Pellazgo' from project 'Pellazgo')
+	...
+	note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'Expo' from project 'Pods')
+	note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'EXConstants-ExpoConstants_privacy' from project 'Pods')
+	note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'EXConstants-EXConstants' from project 'Pods')
+	note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'EXConstants' from project 'Pods')
+	note: Run script build phase '[CP-User] Generate app.config for prebuilt Constants.manifest' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'EXConstants' from project 'Pods')
+	note: Disabling previews because SWIFT_VERSION is set and SWIFT_OPTIMIZATION_LEVEL=-O, expected -Onone (in target 'DoubleConversion' from project 'Pods')
+
+
+Build failed :|
+Step 10 script `Build IPA` exited with status code 65
