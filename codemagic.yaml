@@ -9,9 +9,11 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.pellazgo.pellazgo
-      # Xcode 26 (latest) breaks RN 0.79's bundled fmt/glog with its new clang.
-      # 16.2 is the last release fully validated against RN 0.79.
-      xcode: 16.2
+      # Apple now requires the iOS 26 SDK (Xcode 26) for all App Store uploads.
+      # The Podfile patch step below (CLANG_CXX_LANGUAGE_STANDARD=c++20 + libc++)
+      # fixes the fmt/glog C++ compile errors that Xcode 26's stricter clang
+      # would otherwise cause in RN 0.79.
+      xcode: latest
       vars:
         APP_ID: "6782613978"
         BUNDLE_ID: "com.pellazgo.pellazgo"

@@ -1,0 +1,44 @@
+
+== Gathering artifacts ==
+
+== Publishing artifacts ==
+
+Publishing artifact Pellazgo.ipa
+Publishing artifact Pellazgo_10_artifacts.zip
+Publishing Pellazgo.ipa to App Store Connect
+> app-store-connect publish --path /Users/builder/clone/build/ios/ipa/Pellazgo.ipa
+
+Publish "/Users/builder/clone/build/ios/ipa/Pellazgo.ipa" to App Store Connect
+App name: Pellazgo
+Bundle identifier: com.pellazgo.pellazgo
+Certificate expires: 2027-06-27T01:32:22.000+0000
+Distribution type: App Store
+Min OS version: 15.1
+Provisioned devices: N/A
+Provisions all devices: No
+Supported platforms: iPhoneOS
+Version code: 1
+Version: 1.0.0
+
+Upload "/Users/builder/clone/build/ios/ipa/Pellazgo.ipa" to App Store Connect
+Running altool at path '/Applications/Xcode-16.2.app/Contents/SharedFrameworks/ContentDeliveryServices.framework/Frameworks/AppStoreService.framework/Support/altool'...
+Running altool at path '/Applications/Xcode-16.2.app/Contents/SharedFrameworks/ContentDeliveryServices.framework/Frameworks/AppStoreService.framework/Support/altool'...
+2026-07-06 02:29:35.465 *** Error: [ContentDelivery.Uploader.600000320180] Validation failed (409) SDK version issue. This app was built with the iOS 18.2 SDK. All iOS and iPadOS apps must be built with the iOS 26 SDK or later, included in Xcode 26 or later, in order to be uploaded to App Store Connect or submitted for distribution. (ID: 94284675-aab8-4ca3-a59d-253ea1474bff)
+2026-07-06 02:29:47.804 [ContentDelivery.Uploader.600000320180] 
+=============
+UPLOAD FAILED with 1 error.
+=============
+{"tool-version":"8.003.16003","tool-path":"\/Applications\/Xcode-16.2.app\/Contents\/SharedFrameworks\/ContentDeliveryServices.framework\/Versions\/A\/Frameworks\/AppStoreService.framework","os-version":"15.2.0","product-errors":[{"message":"Validation failed","userInfo":{"NSUnderlyingError":"Error Domain=IrisAPI Code=-19241 \"Validation failed\" UserInfo={status=409, detail=SDK version issue. This app was built with the iOS 18.2 SDK. All iOS and iPadOS apps must be built with the iOS 26 SDK or later, included in Xcode 26 or later, in order to be uploaded to App Store Connect or submitted for distribution., id=94284675-aab8-4ca3-a59d-253ea1474bff, code=STATE_ERROR.VALIDATION_ERROR, title=Validation failed, NSLocalizedFailureReason=SDK version issue. This app was built with the iOS 18.2 SDK. All iOS and iPadOS apps must be built with the iOS 26 SDK or later, included in Xcode 26 or later, in order to be uploaded to App Store Connect or submitted for distribution., NSLocalizedDescription=Validation failed}","NSLocalizedDescription":"Validation failed","iris-code":"STATE_ERROR.VALIDATION_ERROR","NSLocalizedFailureReason":"SDK version issue. This app was built with the iOS 18.2 SDK. All iOS and iPadOS apps must be built with the iOS 26 SDK or later, included in Xcode 26 or later, in order to be uploaded to App Store Connect or submitted for distribution. (ID: 94284675-aab8-4ca3-a59d-253ea1474bff)"},"code":409}]}
+
+
+Failed to upload archive at "/Users/builder/clone/build/ios/ipa/Pellazgo.ipa":
+Validation failed
+Failed to publish /Users/builder/clone/build/ios/ipa/Pellazgo.ipa
+
+Failed to publish Pellazgo.ipa to App Store Connect.
+
+Build failed :|
+
+
+Publishing failed :|
+Failed to publish Pellazgo.ipa to App Store Connect.
