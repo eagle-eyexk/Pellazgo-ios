@@ -1,0 +1,3 @@
+- [RN 0.79 + Xcode 26 Podfile patch](rn079-xcode26-patch.md) — fmt/glog require c++17 + -w; all pods need GCC_TREAT_WARNINGS_AS_ERRORS=NO; patch uses sentinel comment for idempotency.
+- [Codemagic publishing keys](codemagic-publishing.md) — only auth/submit_to_testflight/submit_to_app_store are valid; cancel_previous_submissions does not exist.
+- [Apple SDK mandate (July 2026)](apple-sdk-mandate.md) — App Store Connect rejects uploads built with iOS 18.2 SDK; Xcode 26 (latest) required.

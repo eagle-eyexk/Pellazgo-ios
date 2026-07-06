@@ -60,11 +60,56 @@ workflows:
           with open(podfile) as f:
               src = f.read()
 
-          if "CLANG_CXX_LANGUAGE_STANDARD" in src:
+          # Use a unique sentinel so we never false-skip because Expo's own
+          # template happens to mention CLANG_CXX_LANGUAGE_STANDARD.
+          SENTINEL = "# RN79_XCODE26_PATCH"
+          if SENTINEL in src:
               print("Podfile already patched — skipping")
               sys.exit(0)
 
-          insert = """\n  # Fix: fmt/glog C++ compile errors on RN 0.79 (Xcode 16+)\n  installer.pods_project.targets.each do |target|\n    target.build_configurations.each do |config|\n      config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++20'\n      config.build_settings['CLANG_CXX_LIBRARY'] = 'libc++'\n    end\n  end\n"""
+          # Two-part fix for RN 0.79 on Apple clang 19 (Xcode 26):
+          #
+          # 1. All pods:
+          #    - GCC_TREAT_WARNINGS_AS_ERRORS = NO  (clang 19 promotes many
+          #      previously-warning constructs to hard errors)
+          #    - CLANG_CXX_LANGUAGE_STANDARD = c++20 + CLANG_CXX_LIBRARY = libc++
+          #      (required by React Native new arch headers)
+          #
+          # 2. fmt + glog specifically:
+          #    - Override to c++17  (their bundled source is not strict-c++20-clean
+          #      under clang 19; format.cc / logging.cc fail to compile otherwise)
+          #    - OTHER_CPLUSPLUSFLAGS += -w  (suppress all warnings so clang 19's
+          #      new pedantic checks don't become errors even with the override)
+          #      The append handles both String and Array values to avoid a Ruby
+          #      TypeError if CocoaPods stores the setting as an Array internally.
+          insert = (
+            "\n"
+            "  # RN79_XCODE26_PATCH — do not remove this sentinel comment\n"
+            "  # ── RN 0.79 + Xcode 26 (Apple clang 19) compatibility patch ──\n"
+            "  installer.pods_project.targets.each do |target|\n"
+            "    target.build_configurations.each do |config|\n"
+            "      config.build_settings['GCC_TREAT_WARNINGS_AS_ERRORS']   = 'NO'\n"
+            "      config.build_settings['SWIFT_TREAT_WARNINGS_AS_ERRORS'] = 'NO'\n"
+            "      config.build_settings['CLANG_CXX_LANGUAGE_STANDARD']    = 'c++20'\n"
+            "      config.build_settings['CLANG_CXX_LIBRARY']              = 'libc++'\n"
+            "    end\n"
+            "  end\n"
+            "  # fmt and glog are not strict-c++20-clean under clang 19 —\n"
+            "  # force c++17 and silence all warnings for those two targets only.\n"
+            "  installer.pods_project.targets.each do |target|\n"
+            "    next unless ['fmt', 'glog'].include?(target.name)\n"
+            "    target.build_configurations.each do |config|\n"
+            "      config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++17'\n"
+            "      existing = config.build_settings['OTHER_CPLUSPLUSFLAGS']\n"
+            "      config.build_settings['OTHER_CPLUSPLUSFLAGS'] =\n"
+            "        case existing\n"
+            "        when Array  then existing + ['-w']\n"
+            "        when String then existing + ' -w'\n"
+            "        else             '$(inherited) -w'\n"
+            "        end\n"
+            "    end\n"
+            "  end\n"
+          )
 
           patched = re.sub(
               r"(post_install\s+do\s+\|installer\|)",
@@ -80,7 +125,7 @@ workflows:
 
           with open(podfile, "w") as f:
               f.write(patched)
-          print("Podfile patched — CLANG_CXX_LANGUAGE_STANDARD=c++20 + libc++ applied")
+          print("Podfile patched — fmt/glog -> c++17 -w, all pods -> GCC_TREAT_WARNINGS_AS_ERRORS=NO")
           PYEOF
 
       - name: Install CocoaPods
