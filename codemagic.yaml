@@ -45,6 +45,42 @@ workflows:
           cd "$CM_BUILD_DIR/$EXPO_DIR"
           npx expo prebuild --platform ios --clean --no-install
 
+      - name: Patch Podfile for C++ compatibility
+        script: |
+          # React Native 0.79 + Xcode: fmt/glog pods fail to compile without C++20.
+          # Expo prebuild regenerates the Podfile each time, so we patch it here.
+          python3 << 'EOF'
+          import os
+
+          ios_dir = os.path.join(os.environ["CM_BUILD_DIR"], os.environ["IOS_DIR"])
+          podfile_path = os.path.join(ios_dir, "Podfile")
+
+          with open(podfile_path) as f:
+              content = f.read()
+
+          insert = (
+              "\n"
+              "  # Fix: fmt/glog C++ compilation errors with RN 0.79 and Xcode\n"
+              "  installer.pods_project.targets.each do |target|\n"
+              "    target.build_configurations.each do |config|\n"
+              "      config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++20'\n"
+              "    end\n"
+              "  end\n"
+          )
+
+          # Insert into the first post_install block expo generates
+          content = content.replace(
+              "post_install do |installer|",
+              "post_install do |installer|" + insert,
+              1,
+          )
+
+          with open(podfile_path, "w") as f:
+              f.write(content)
+
+          print("Podfile patched — CLANG_CXX_LANGUAGE_STANDARD = c++20 applied to all Pod targets")
+          EOF
+
       - name: Install CocoaPods
         script: |
           cd "$CM_BUILD_DIR/$IOS_DIR"

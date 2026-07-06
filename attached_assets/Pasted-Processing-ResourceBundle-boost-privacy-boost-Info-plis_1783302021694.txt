@@ -1,0 +1,48 @@
+Processing ResourceBundle-boost_privacy-boost-Info.plist
+▸ Touching glog_privacy.bundle (in target 'glog-glog_privacy' from project 'Pods')
+▸ Touching boost_privacy.bundle (in target 'boost-boost_privacy' from project 'Pods')
+▸ Processing ResourceBundle-React-cxxreact_privacy-React-cxxreact-Info.plist
+▸ Copying /Users/builder/Library/Developer/Xcode/DerivedData/Pellazgo-cmzhccotpqppekbpsuttoikzatlf/Build/Intermediates.noindex/ArchiveIntermediates/Pellazgo/IntermediateBuildFilesPath/UninstalledProducts/iphoneos/React-cxxreact_privacy.bundle/PrivacyInfo.xcprivacy
+▸ Processing ResourceBundle-React-Core_privacy-React-Core-Info.plist
+▸ Copying /Users/builder/Library/Developer/Xcode/DerivedData/Pellazgo-cmzhccotpqppekbpsuttoikzatlf/Build/Intermediates.noindex/ArchiveIntermediates/Pellazgo/IntermediateBuildFilesPath/UninstalledProducts/iphoneos/React-Core_privacy.bundle/PrivacyInfo.xcprivacy
+▸ Processing ResourceBundle-RCT-Folly_privacy-RCT-Folly-Info.plist
+▸ Touching React-cxxreact_privacy.bundle (in target 'React-cxxreact-React-cxxreact_privacy' from project 'Pods')
+▸ Copying /Users/builder/Library/Developer/Xcode/DerivedData/Pellazgo-cmzhccotpqppekbpsuttoikzatlf/Build/Intermediates.noindex/ArchiveIntermediates/Pellazgo/IntermediateBuildFilesPath/UninstalledProducts/iphoneos/ExpoFileSystem_privacy.bundle/PrivacyInfo.xcprivacy
+▸ Processing ResourceBundle-ExpoFileSystem_privacy-ExpoFileSystem-Info.plist
+▸ Processing ResourceBundle-ExpoConstants_privacy-EXConstants-Info.plist
+▸ Copying /Users/builder/Library/Developer/Xcode/DerivedData/Pellazgo-cmzhccotpqppekbpsuttoikzatlf/Build/Intermediates.noindex/ArchiveIntermediates/Pellazgo/IntermediateBuildFilesPath/UninstalledProducts/iphoneos/ExpoConstants_privacy.bundle/PrivacyInfo.xcprivacy
+▸ Processing ResourceBundle-EXConstants-EXConstants-Info.plist
+▸ Touching React-Core_privacy.bundle (in target 'React-Core-React-Core_privacy' from project 'Pods')
+▸ Touching RCT-Folly_privacy.bundle (in target 'RCT-Folly-RCT-Folly_privacy' from project 'Pods')
+▸ Touching ExpoFileSystem_privacy.bundle (in target 'ExpoFileSystem-ExpoFileSystem_privacy' from project 'Pods')
+▸ Touching EXConstants.bundle (in target 'EXConstants-EXConstants' from project 'Pods')
+▸ Touching ExpoConstants_privacy.bundle (in target 'EXConstants-ExpoConstants_privacy' from project 'Pods')
+▸ Running script '[CP] Copy XCFrameworks'
+▸ Compiling vlog_is_on.cc
+▸ Compiling utilities.cc
+▸ Compiling symbolize.cc
+▸ Compiling signalhandler.cc
+▸ Compiling raw_logging.cc
+▸ Compiling logging.cc
+▸ Compiling demangle.cc
+▸ Compiling format.cc
+▸ Compiling event.cpp
+▸ Compiling YGValue.cpp
+▸ Compiling YGPixelGrid.cpp
+▸ Compiling YGNodeStyle.cpp
+▸ Compiling YGNodeLayout.cpp
+▸ Compiling YGNode.cpp
+    Run script build phase '[CP-User] [Hermes] Replace Hermes for the right configuration, if needed' will be run during every build because it does not specify any outputs. To address this issue, either add output dependencies to the script phase, or configure it to run in every build by unchecking "Based on dependency analysis" in the script phase. (in target 'hermes-engine' from project 'Pods')
+Failed to archive /Users/builder/clone/artifacts/pellazgo/ios/Pellazgo.xcworkspace. The following build commands failed:
+
+CompileC /Users/builder/Library/Developer/Xcode/DerivedData/Pellazgo-cmzhccotpqppekbpsuttoikzatlf/Build/Intermediates.noindex/ArchiveIntermediates/Pellazgo/IntermediateBuildFilesPath/Pods.build/Release-iphoneos/fmt.build/Objects-normal/arm64/format.o /Users/builder/clone/artifacts/pellazgo/ios/Pods/fmt/src/format.cc normal arm64 c++ com.apple.compilers.llvm.clang.1_0.compiler (in target 'fmt' from project 'Pods')
+	...
+	note: Run script build phase 'Bundle React Native code and images' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'Pellazgo' from project 'Pellazgo')
+	note: Run script build phase '[Expo] Configure project' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'Pellazgo' from project 'Pellazgo')
+	note: Run script build phase '[CP-User] [RN]Check FBReactNativeSpec' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'React-RCTFBReactNativeSpec' from project 'Pods')
+	note: Run script build phase '[CP-User] [RN]Check rncore' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'React-FabricComponents' from project 'Pods')
+	note: Run script build phase '[CP-User] [RN]Check rncore' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'React-Fabric' from project 'Pods')
+	note: Run script build phase '[CP-User] Generate app.config for prebuilt Constants.manifest' will be run during every build because the option to run the script phase "Based on dependency analysis" is unchecked. (in target 'EXConstants' from project 'Pods')
+
+
+Build failed :|
