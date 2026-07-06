@@ -1,6 +1,6 @@
 workflows:
   pellazgo-ios:
-    name: Pellazgo iOS - TestFlight
+    name: Pellazgo iOS - TestFlight & App Store
     max_build_duration: 60
     integrations:
       app_store_connect: pellazgo_asc
@@ -9,7 +9,9 @@ workflows:
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.pellazgo.pellazgo
-      xcode: latest
+      # Xcode 26 (latest) breaks RN 0.79's bundled fmt/glog with its new clang.
+      # 16.2 is the last release fully validated against RN 0.79.
+      xcode: 16.2
       vars:
         APP_ID: "6782613978"
         BUNDLE_ID: "com.pellazgo.pellazgo"
@@ -17,8 +19,6 @@ workflows:
         IOS_DIR: "artifacts/pellazgo/ios"
         XCODE_SCHEME: "Pellazgo"
         XCODE_WORKSPACE: "artifacts/pellazgo/ios/Pellazgo.xcworkspace"
-        # Codemagic macOS agents ship with old corepack whose keystore
-        # predates pnpm 10 — disabling integrity check so Enable pnpm passes.
         COREPACK_INTEGRITY_KEYS: "0"
 
     triggering:
@@ -45,41 +45,41 @@ workflows:
           cd "$CM_BUILD_DIR/$EXPO_DIR"
           npx expo prebuild --platform ios --clean --no-install
 
-      - name: Patch Podfile for C++ compatibility
+      - name: Patch Podfile – fix fmt/glog C++ standard
         script: |
-          # React Native 0.79 + Xcode: fmt/glog pods fail to compile without C++20.
-          # Expo prebuild regenerates the Podfile each time, so we patch it here.
-          python3 << 'EOF'
-          import os
+          # Expo prebuild regenerates the Podfile every run, so we patch after.
+          # Uses regex so whitespace differences in expo's template don't matter.
+          python3 << 'PYEOF'
+          import re, os, sys
 
-          ios_dir = os.path.join(os.environ["CM_BUILD_DIR"], os.environ["IOS_DIR"])
-          podfile_path = os.path.join(ios_dir, "Podfile")
+          podfile = os.path.join(
+              os.environ["CM_BUILD_DIR"], os.environ["IOS_DIR"], "Podfile"
+          )
+          with open(podfile) as f:
+              src = f.read()
 
-          with open(podfile_path) as f:
-              content = f.read()
+          if "CLANG_CXX_LANGUAGE_STANDARD" in src:
+              print("Podfile already patched — skipping")
+              sys.exit(0)
 
-          insert = (
-              "\n"
-              "  # Fix: fmt/glog C++ compilation errors with RN 0.79 and Xcode\n"
-              "  installer.pods_project.targets.each do |target|\n"
-              "    target.build_configurations.each do |config|\n"
-              "      config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++20'\n"
-              "    end\n"
-              "  end\n"
+          insert = """\n  # Fix: fmt/glog C++ compile errors on RN 0.79 (Xcode 16+)\n  installer.pods_project.targets.each do |target|\n    target.build_configurations.each do |config|\n      config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++20'\n      config.build_settings['CLANG_CXX_LIBRARY'] = 'libc++'\n    end\n  end\n"""
+
+          patched = re.sub(
+              r"(post_install\s+do\s+\|installer\|)",
+              r"\1" + insert,
+              src,
+              count=1,
           )
 
-          # Insert into the first post_install block expo generates
-          content = content.replace(
-              "post_install do |installer|",
-              "post_install do |installer|" + insert,
-              1,
-          )
+          if patched == src:
+              print("ERROR: post_install block not found in Podfile", file=sys.stderr)
+              print(src[:500])
+              sys.exit(1)
 
-          with open(podfile_path, "w") as f:
-              f.write(content)
-
-          print("Podfile patched — CLANG_CXX_LANGUAGE_STANDARD = c++20 applied to all Pod targets")
-          EOF
+          with open(podfile, "w") as f:
+              f.write(patched)
+          print("Podfile patched — CLANG_CXX_LANGUAGE_STANDARD=c++20 + libc++ applied")
+          PYEOF
 
       - name: Install CocoaPods
         script: |
