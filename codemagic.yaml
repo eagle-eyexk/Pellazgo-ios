@@ -89,26 +89,45 @@ workflows:
             "\n"
             "  # RN79_XCODE26_PATCH — do not remove this sentinel comment\n"
             "  # ── RN 0.79 + Xcode 26 (Apple clang 19) compatibility patch ──\n"
+            "  #\n"
+            "  # Pass 1 – every pod:\n"
+            "  #   GCC_TREAT_WARNINGS_AS_ERRORS=NO   clang 19 promotes more constructs to errors\n"
+            "  #   CLANG_CXX_LANGUAGE_STANDARD=c++20  RN new-arch headers require c++20\n"
+            "  #   CLANG_CXX_LIBRARY=libc++           always use libc++\n"
+            "  #   IPHONEOS_DEPLOYMENT_TARGET>=15.1   iOS 26 SDK availability guards require\n"
+            "  #                                      an explicit deployment target; pods that\n"
+            "  #                                      ship without one (or with iOS 9/10) trigger\n"
+            "  #                                      hard errors in the new SDK headers.\n"
             "  installer.pods_project.targets.each do |target|\n"
             "    target.build_configurations.each do |config|\n"
             "      config.build_settings['GCC_TREAT_WARNINGS_AS_ERRORS']   = 'NO'\n"
             "      config.build_settings['SWIFT_TREAT_WARNINGS_AS_ERRORS'] = 'NO'\n"
             "      config.build_settings['CLANG_CXX_LANGUAGE_STANDARD']    = 'c++20'\n"
             "      config.build_settings['CLANG_CXX_LIBRARY']              = 'libc++'\n"
+            "      min = (config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] || '0').to_f\n"
+            "      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.1' if min < 15.1\n"
             "    end\n"
             "  end\n"
-            "  # fmt and glog are not strict-c++20-clean under clang 19 —\n"
-            "  # force c++17 and silence all warnings for those two targets only.\n"
+            "  #\n"
+            "  # Pass 2 – fmt and glog only:\n"
+            "  #   CLANG_CXX_LANGUAGE_STANDARD=c++14  most conservative — avoids C++17 removals\n"
+            "  #                                      (std::binary_function, etc.) that old fmt\n"
+            "  #                                      6.x still uses and clang 19 rejects\n"
+            "  #   OTHER_CPLUSPLUSFLAGS += -w          suppress every remaining warning\n"
+            "  #   -DFMT_USE_CONSTEXPR=0               disable fmt's constexpr paths — the\n"
+            "  #                                      primary source of hard errors under\n"
+            "  #                                      clang 19's stricter constexpr evaluation\n"
             "  installer.pods_project.targets.each do |target|\n"
             "    next unless ['fmt', 'glog'].include?(target.name)\n"
             "    target.build_configurations.each do |config|\n"
-            "      config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++17'\n"
+            "      config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++14'\n"
             "      existing = config.build_settings['OTHER_CPLUSPLUSFLAGS']\n"
+            "      extra = '-w -DFMT_USE_CONSTEXPR=0'\n"
             "      config.build_settings['OTHER_CPLUSPLUSFLAGS'] =\n"
             "        case existing\n"
-            "        when Array  then existing + ['-w']\n"
-            "        when String then existing + ' -w'\n"
-            "        else             '$(inherited) -w'\n"
+            "        when Array  then existing + extra.split\n"
+            "        when String then existing + ' ' + extra\n"
+            "        else             '$(inherited) ' + extra\n"
             "        end\n"
             "    end\n"
             "  end\n"
@@ -128,13 +147,41 @@ workflows:
 
           with open(podfile, "w") as f:
               f.write(patched)
-          print("Podfile patched — fmt/glog -> c++17 -w, all pods -> GCC_TREAT_WARNINGS_AS_ERRORS=NO")
+          print("Podfile patched — fmt/glog -> c++14 -w -DFMT_USE_CONSTEXPR=0, all pods -> GCC_TREAT_WARNINGS_AS_ERRORS=NO + IPHONEOS_DEPLOYMENT_TARGET>=15.1")
           PYEOF
 
       - name: Install CocoaPods
         script: |
           cd "$CM_BUILD_DIR/$IOS_DIR"
           pod install --repo-update
+
+      - name: Patch fmt source – disable constexpr for clang 19
+        script: |
+          # Belt-and-suspenders: directly prepend compatibility defines to
+          # fmt/src/format.cc AFTER pod install writes the source tree.
+          #
+          # Why: GCC_TREAT_WARNINGS_AS_ERRORS=NO + c++14 + -w (set in the
+          # Podfile post_install block above) suppress warnings but cannot
+          # suppress hard compilation ERRORS.  fmt 6.x's constexpr paths
+          # produce hard errors under Apple clang 19 / Xcode 26 because the
+          # compiler evaluates constexpr expressions more strictly.
+          # Prepending FMT_USE_CONSTEXPR=0 forces fmt to use ordinary runtime
+          # code paths everywhere, which compile cleanly under any clang.
+          #
+          # The sentinel comment prevents double-patching on retried builds.
+          FMT_SRC="$CM_BUILD_DIR/$IOS_DIR/Pods/fmt/src/format.cc"
+          if [ ! -f "$FMT_SRC" ]; then
+            echo "WARNING: $FMT_SRC not found — skipping fmt source patch"
+            exit 0
+          fi
+          if grep -q "XCODE26_COMPAT" "$FMT_SRC"; then
+            echo "fmt source already patched — skipping"
+            exit 0
+          fi
+          printf '// XCODE26_COMPAT: disable fmt constexpr for Apple clang 19\n// This shim is injected by codemagic.yaml; do not commit to source control.\n#undef  FMT_USE_CONSTEXPR\n#define FMT_USE_CONSTEXPR 0\n#undef  FMT_CONSTEXPR\n#define FMT_CONSTEXPR\n#undef  FMT_CONSTEXPR14\n#define FMT_CONSTEXPR14\n\n' \
+            | cat - "$FMT_SRC" > /tmp/fmt_patched.cc
+          mv /tmp/fmt_patched.cc "$FMT_SRC"
+          echo "fmt source patched — FMT_USE_CONSTEXPR=0 applied to $FMT_SRC"
 
       - name: Increment build number
         script: |
