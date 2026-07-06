@@ -61,8 +61,8 @@ workflows:
 
       - name: Set up code signing
         script: |
-          xcode-project use-profiles \
-            --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE"
+          cd "$CM_BUILD_DIR/$IOS_DIR"
+          xcode-project use-profiles
 
       - name: Build IPA
         script: |
