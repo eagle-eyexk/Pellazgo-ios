@@ -1,18 +1,23 @@
 workflows:
   pellazgo-ios:
-    name: Pellazgo iOS - TestFlight
+    name: Pellazgo iOS - TestFlight & App Store
 
     max_build_duration: 90
 
     integrations:
       app_store_connect: pellazgo_asc
 
+
     environment:
-      xcode: 16.4
+
+      # Required by App Store Connect validation
+      # Uses iOS 26 SDK
+      xcode: latest
 
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.pellazgo.pellazgo
+
 
       vars:
         APP_ID: "6782613978"
@@ -39,13 +44,15 @@ workflows:
 
     scripts:
 
-      - name: Setup Node and pnpm
+
+      - name: Setup pnpm
         script: |
           corepack enable
           corepack prepare pnpm@10 --activate
 
           node -v
           pnpm -v
+
 
 
       - name: Install dependencies
@@ -55,11 +62,10 @@ workflows:
           pnpm install --no-frozen-lockfile
 
 
+
       - name: Expo prebuild
         script: |
           cd "$CM_BUILD_DIR/$EXPO_DIR"
-
-          rm -rf ios
 
           node_modules/.bin/expo prebuild \
             --platform ios \
@@ -67,7 +73,8 @@ workflows:
             --no-install
 
 
-      - name: Patch Podfile
+
+      - name: Patch Podfile for Xcode 26
         script: |
           python3 <<'PY'
 
@@ -79,11 +86,12 @@ workflows:
               "Podfile"
           )
 
-          with open(podfile,"r") as f:
-              content=f.read()
+
+          with open(podfile, "r") as f:
+              content = f.read()
 
 
-          patch="""
+          patch = """
 
             installer.pods_project.targets.each do |target|
 
@@ -114,20 +122,20 @@ workflows:
               )
 
 
-          with open(podfile,"w") as f:
+          with open(podfile, "w") as f:
               f.write(content)
 
 
-          print("Podfile updated")
+          print("Podfile patched for Xcode 26")
+
 
           PY
+
 
 
       - name: Install CocoaPods
         script: |
           cd "$CM_BUILD_DIR/$IOS_DIR"
-
-          pod deintegrate || true
 
           rm -rf Pods
           rm -f Podfile.lock
@@ -135,20 +143,23 @@ workflows:
           pod install --repo-update
 
 
-      - name: Increment build number
+
+      - name: Update build number
         script: |
 
           BUILD_NUMBER=$(
-          app-store-connect get-latest-testflight-build-number "$APP_ID" \
-          2>/dev/null || echo 0
+            app-store-connect get-latest-testflight-build-number "$APP_ID" \
+            2>/dev/null || echo 0
           )
 
-          BUILD_NUMBER=$(($BUILD_NUMBER + 1))
+
+          BUILD_NUMBER=$((BUILD_NUMBER + 1))
 
 
           cd "$CM_BUILD_DIR/$IOS_DIR"
 
-          agvtool new-version -all $BUILD_NUMBER
+          agvtool new-version -all "$BUILD_NUMBER"
+
 
 
       - name: Setup signing
@@ -156,6 +167,7 @@ workflows:
           cd "$CM_BUILD_DIR/$IOS_DIR"
 
           xcode-project use-profiles
+
 
 
       - name: Build IPA
@@ -171,9 +183,7 @@ workflows:
     artifacts:
 
       - build/ios/ipa/*.ipa
-
       - /tmp/xcodebuild_logs/*.log
-
       - $HOME/Library/Logs/gym/*.log
 
 
