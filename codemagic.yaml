@@ -1,6 +1,7 @@
 workflows:
   pellazgo-ios:
-    name: Pellazgo iOS - TestFlight & App Store
+
+    name: Pellazgo iOS - TestFlight Release
 
     max_build_duration: 90
 
@@ -10,8 +11,7 @@ workflows:
 
     environment:
 
-      # Required for current App Store Connect uploads
-      xcode: latest
+      xcode: 26
 
       ios_signing:
         distribution_type: app_store
@@ -21,22 +21,27 @@ workflows:
       vars:
 
         APP_ID: "6782613978"
+
         BUNDLE_ID: "com.pellazgo.pellazgo"
 
         EXPO_DIR: "artifacts/pellazgo"
+
         IOS_DIR: "artifacts/pellazgo/ios"
 
         XCODE_WORKSPACE: "artifacts/pellazgo/ios/Pellazgo.xcworkspace"
+
         XCODE_SCHEME: "Pellazgo"
 
         EXPO_NO_TELEMETRY: "1"
-        COREPACK_INTEGRITY_KEYS: "0"
+
+        COREPACK_ENABLE_STRICT: "0"
 
 
 
     triggering:
 
       events:
+
         - push
 
       branch_patterns:
@@ -49,69 +54,81 @@ workflows:
     scripts:
 
 
+      # -------------------------------
+      # Node / pnpm
+      # -------------------------------
+
       - name: Install pnpm
 
         script: |
+
           corepack enable
+
           corepack prepare pnpm@10 --activate
 
-          node -v
-          pnpm -v
+          pnpm --version
 
 
+
+      # -------------------------------
+      # Install dependencies
+      # -------------------------------
 
       - name: Install dependencies
 
         script: |
+
           cd "$CM_BUILD_DIR"
 
           pnpm install --no-frozen-lockfile
 
 
 
+      # -------------------------------
+      # Expo native generation
+      # -------------------------------
+
       - name: Expo prebuild
 
         script: |
+
           cd "$CM_BUILD_DIR/$EXPO_DIR"
 
-          node_modules/.bin/expo prebuild \
+          rm -rf ios
+
+          npx expo prebuild \
             --platform ios \
-            --clean \
-            --no-install
+            --clean
 
 
 
-      - name: Patch Podfile safely
+      # -------------------------------
+      # Fix Pod configuration
+      # -------------------------------
+
+      - name: Patch Podfile
 
         script: |
 
-          cd "$CM_BUILD_DIR/$IOS_DIR"
-
-
           python3 <<'PY'
 
-          from pathlib import Path
+          import os
+
+          path = os.path.join(
+              os.environ["CM_BUILD_DIR"],
+              os.environ["IOS_DIR"],
+              "Podfile"
+          )
 
 
-          podfile = Path("Podfile")
-
-
-          if not podfile.exists():
-              raise SystemExit("Podfile not found")
-
-
-          content = podfile.read_text()
-
-
-          if "PELLAZGO_BUILD_FIX" in content:
-              print("Podfile already patched")
-              exit(0)
+          with open(path,"r") as f:
+              podfile=f.read()
 
 
 
-          fix = r'''
+          patch = """
 
-            # PELLAZGO_BUILD_FIX
+          post_install do |installer|
 
             installer.pods_project.targets.each do |target|
 
@@ -121,7 +138,7 @@ workflows:
 
                 config.build_settings['SWIFT_TREAT_WARNINGS_AS_ERRORS'] = 'NO'
 
-                config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++20'
+                config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++17'
 
                 config.build_settings['CLANG_CXX_LIBRARY'] = 'libc++'
 
@@ -133,39 +150,34 @@ workflows:
 
             end
 
-          '''
+
+          end
+
+          """
 
 
 
-          if "post_install do |installer|" not in content:
+          if "GCC_TREAT_WARNINGS_AS_ERRORS" not in podfile:
 
-              raise SystemExit(
-                "Expo Podfile has no post_install block"
-              )
+              podfile += patch
 
 
 
-          content = content.replace(
+          with open(path,"w") as f:
 
-              "post_install do |installer|",
-
-              "post_install do |installer|" + fix,
-
-              1
-
-          )
+              f.write(podfile)
 
 
-
-          podfile.write_text(content)
-
-
-          print("Podfile patch completed")
+          print("Podfile patched")
 
 
           PY
 
 
+
+      # -------------------------------
+      # Install pods clean
+      # -------------------------------
 
       - name: Install CocoaPods
 
@@ -186,45 +198,59 @@ workflows:
 
 
 
-      - name: Increase build number
+      # -------------------------------
+      # Increment build number
+      # -------------------------------
+
+      - name: Update build number
 
         script: |
 
+          cd "$CM_BUILD_DIR/$IOS_DIR"
+
+
           BUILD_NUMBER=$(
-            app-store-connect get-latest-testflight-build-number "$APP_ID" \
-            2>/dev/null || echo 0
+
+          app-store-connect get-latest-testflight-build-number "$APP_ID" \
+          2>/dev/null || echo 0
+
           )
 
 
-          BUILD_NUMBER=$((BUILD_NUMBER + 1))
-
-
-          cd "$CM_BUILD_DIR/$IOS_DIR"
-
-
-          agvtool new-version -all "$BUILD_NUMBER"
+          agvtool new-version \
+          $((BUILD_NUMBER + 1))
 
 
 
-      - name: Setup signing
+      # -------------------------------
+      # Signing
+      # -------------------------------
+
+      - name: Configure signing
 
         script: |
 
           cd "$CM_BUILD_DIR/$IOS_DIR"
-
 
           xcode-project use-profiles
 
 
+
+      # -------------------------------
+      # Build IPA
+      # -------------------------------
 
       - name: Build IPA
 
         script: |
 
           xcode-project build-ipa \
-            --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
-            --scheme "$XCODE_SCHEME" \
-            --archive-flags "-configuration Release"
+
+          --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
+
+          --scheme "$XCODE_SCHEME" \
+
+          --archive-flags "-configuration Release"
 
 
 
