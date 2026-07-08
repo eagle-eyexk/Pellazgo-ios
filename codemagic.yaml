@@ -1,276 +1,92 @@
 workflows:
   pellazgo-ios:
-
-    name: Pellazgo iOS - TestFlight Release
-
+    name: Pellazgo iOS Release
     max_build_duration: 90
 
     integrations:
       app_store_connect: pellazgo_asc
 
-
     environment:
-
-      xcode: 26
-
+      xcode: latest
+      cocoapods: default
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.pellazgo.pellazgo
 
-
       vars:
-
         APP_ID: "6782613978"
-
         BUNDLE_ID: "com.pellazgo.pellazgo"
-
-        EXPO_DIR: "artifacts/pellazgo"
-
+        PROJECT_DIR: "artifacts/pellazgo"
         IOS_DIR: "artifacts/pellazgo/ios"
-
-        XCODE_WORKSPACE: "artifacts/pellazgo/ios/Pellazgo.xcworkspace"
-
-        XCODE_SCHEME: "Pellazgo"
-
-        EXPO_NO_TELEMETRY: "1"
-
-        COREPACK_ENABLE_STRICT: "0"
-
-
+        WORKSPACE: "Pellazgo.xcworkspace"
+        SCHEME: "Pellazgo"
 
     triggering:
-
       events:
-
         - push
 
       branch_patterns:
-
         - pattern: main
           include: true
 
-
-
     scripts:
 
-
-      # -------------------------------
-      # Node / pnpm
-      # -------------------------------
-
-      - name: Install pnpm
-
+      - name: Install Node dependencies
         script: |
-
-          corepack enable
-
-          corepack prepare pnpm@10 --activate
-
-          pnpm --version
-
-
-
-      # -------------------------------
-      # Install dependencies
-      # -------------------------------
-
-      - name: Install dependencies
-
-        script: |
-
-          cd "$CM_BUILD_DIR"
-
+          npm install -g pnpm
+          cd "$CM_BUILD_DIR/$PROJECT_DIR"
           pnpm install --no-frozen-lockfile
 
-
-
-      # -------------------------------
-      # Expo native generation
-      # -------------------------------
-
-      - name: Expo prebuild
-
+      - name: Expo Prebuild
         script: |
+          cd "$CM_BUILD_DIR/$PROJECT_DIR"
+          npx expo prebuild --platform ios --clean
 
-          cd "$CM_BUILD_DIR/$EXPO_DIR"
-
-          rm -rf ios
-
-          npx expo prebuild \
-            --platform ios \
-            --clean
-
-
-
-      # -------------------------------
-      # Fix Pod configuration
-      # -------------------------------
-
-      - name: Patch Podfile
-
+      - name: Clean CocoaPods
         script: |
-
-          python3 <<'PY'
-
-          import os
-
-          path = os.path.join(
-              os.environ["CM_BUILD_DIR"],
-              os.environ["IOS_DIR"],
-              "Podfile"
-          )
-
-
-          with open(path,"r") as f:
-              podfile=f.read()
-
-
-
-          patch = """
-
-          post_install do |installer|
-
-            installer.pods_project.targets.each do |target|
-
-              target.build_configurations.each do |config|
-
-                config.build_settings['GCC_TREAT_WARNINGS_AS_ERRORS'] = 'NO'
-
-                config.build_settings['SWIFT_TREAT_WARNINGS_AS_ERRORS'] = 'NO'
-
-                config.build_settings['CLANG_CXX_LANGUAGE_STANDARD'] = 'c++17'
-
-                config.build_settings['CLANG_CXX_LIBRARY'] = 'libc++'
-
-                config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.1'
-
-
-              end
-
-
-            end
-
-
-          end
-
-          """
-
-
-
-          if "GCC_TREAT_WARNINGS_AS_ERRORS" not in podfile:
-
-              podfile += patch
-
-
-
-          with open(path,"w") as f:
-
-              f.write(podfile)
-
-
-          print("Podfile patched")
-
-
-          PY
-
-
-
-      # -------------------------------
-      # Install pods clean
-      # -------------------------------
-
-      - name: Install CocoaPods
-
-        script: |
-
           cd "$CM_BUILD_DIR/$IOS_DIR"
-
-
-          rm -rf Pods
-
-          rm -f Podfile.lock
-
 
           pod deintegrate || true
+          rm -rf Pods
+          rm -f Podfile.lock
 
+      - name: Install CocoaPods
+        script: |
+          cd "$CM_BUILD_DIR/$IOS_DIR"
 
+          pod repo update
           pod install --repo-update
 
-
-
-      # -------------------------------
-      # Increment build number
-      # -------------------------------
-
-      - name: Update build number
-
+      - name: Install Signing
         script: |
-
           cd "$CM_BUILD_DIR/$IOS_DIR"
-
-
-          BUILD_NUMBER=$(
-
-          app-store-connect get-latest-testflight-build-number "$APP_ID" \
-          2>/dev/null || echo 0
-
-          )
-
-
-          agvtool new-version \
-          $((BUILD_NUMBER + 1))
-
-
-
-      # -------------------------------
-      # Signing
-      # -------------------------------
-
-      - name: Configure signing
-
-        script: |
-
-          cd "$CM_BUILD_DIR/$IOS_DIR"
-
           xcode-project use-profiles
 
+      - name: Increment Build Number
+        script: |
+          BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "$APP_ID" 2>/dev/null || echo 0)
+          BUILD_NUMBER=$((BUILD_NUMBER+1))
 
+          cd "$CM_BUILD_DIR/$IOS_DIR"
 
-      # -------------------------------
-      # Build IPA
-      # -------------------------------
+          agvtool new-version -all "$BUILD_NUMBER"
 
       - name: Build IPA
-
         script: |
+          cd "$CM_BUILD_DIR/$IOS_DIR"
 
           xcode-project build-ipa \
-
-          --workspace "$CM_BUILD_DIR/$XCODE_WORKSPACE" \
-
-          --scheme "$XCODE_SCHEME" \
-
-          --archive-flags "-configuration Release"
-
-
+            --workspace "$WORKSPACE" \
+            --scheme "$SCHEME" \
+            --archive-flags="-configuration Release"
 
     artifacts:
-
       - build/ios/ipa/*.ipa
-
       - /tmp/xcodebuild_logs/*.log
-
       - $HOME/Library/Logs/gym/*.log
 
-
-
     publishing:
-
-
       app_store_connect:
-
         auth: integration
-
         submit_to_testflight: true
-
         submit_to_app_store: false
