@@ -7,8 +7,9 @@ workflows:
       app_store_connect: pellazgo_asc
 
     environment:
-      xcode: latest
+      xcode: 16.4
       cocoapods: default
+
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.pellazgo.pellazgo
@@ -16,10 +17,14 @@ workflows:
       vars:
         APP_ID: "6782613978"
         BUNDLE_ID: "com.pellazgo.pellazgo"
+
         PROJECT_DIR: "artifacts/pellazgo"
         IOS_DIR: "artifacts/pellazgo/ios"
+
         WORKSPACE: "Pellazgo.xcworkspace"
         SCHEME: "Pellazgo"
+
+        EXPO_USE_METRO_WORKSPACE_ROOT: "1"
 
     triggering:
       events:
@@ -31,41 +36,58 @@ workflows:
 
     scripts:
 
-      - name: Install Node dependencies
+      - name: Install pnpm
         script: |
           npm install -g pnpm
+
+      - name: Install dependencies
+        script: |
           cd "$CM_BUILD_DIR/$PROJECT_DIR"
+
           pnpm install --no-frozen-lockfile
 
-      - name: Expo Prebuild
+      - name: Verify Expo project
         script: |
           cd "$CM_BUILD_DIR/$PROJECT_DIR"
-          npx expo prebuild --platform ios --clean
 
-      - name: Clean CocoaPods
+          echo "Current directory:"
+          pwd
+
+          echo "Files:"
+          ls -la
+
+          echo "Searching App entry:"
+          find . -maxdepth 2 \( -name "App.js" -o -name "App.jsx" -o -name "App.tsx" \)
+
+          echo "Searching Expo Router:"
+          find . -maxdepth 2 -type d -name "app"
+
+          echo "Package:"
+          cat package.json
+
+      - name: Expo prebuild
         script: |
-          cd "$CM_BUILD_DIR/$IOS_DIR"
+          cd "$CM_BUILD_DIR/$PROJECT_DIR"
 
-          pod deintegrate || true
-          rm -rf Pods
-          rm -f Podfile.lock
+          npx expo prebuild --platform ios --clean
 
       - name: Install CocoaPods
         script: |
           cd "$CM_BUILD_DIR/$IOS_DIR"
 
-          pod repo update
-          pod install --repo-update
+          pod install
 
-      - name: Install Signing
+      - name: Configure signing
         script: |
           cd "$CM_BUILD_DIR/$IOS_DIR"
+
           xcode-project use-profiles
 
-      - name: Increment Build Number
+      - name: Increment build number
         script: |
           BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "$APP_ID" 2>/dev/null || echo 0)
-          BUILD_NUMBER=$((BUILD_NUMBER+1))
+
+          BUILD_NUMBER=$((BUILD_NUMBER + 1))
 
           cd "$CM_BUILD_DIR/$IOS_DIR"
 
@@ -75,18 +97,23 @@ workflows:
         script: |
           cd "$CM_BUILD_DIR/$IOS_DIR"
 
+          export PROJECT_ROOT="$CM_BUILD_DIR/$PROJECT_DIR"
+
           xcode-project build-ipa \
             --workspace "$WORKSPACE" \
             --scheme "$SCHEME" \
             --archive-flags="-configuration Release"
+
 
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - $HOME/Library/Logs/gym/*.log
 
+
     publishing:
       app_store_connect:
         auth: integration
         submit_to_testflight: true
         submit_to_app_store: false
+        
